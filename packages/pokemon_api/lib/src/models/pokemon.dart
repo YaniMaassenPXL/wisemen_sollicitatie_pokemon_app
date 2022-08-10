@@ -54,7 +54,7 @@ class Sprites {
 @JsonSerializable()
 class SlotType {
   final int slot;
-
+  final Type type;
 
   factory SlotType.fromJson(Map<String, dynamic> json) =>
       _$SlotTypeFromJson(json);
@@ -67,7 +67,8 @@ class SlotType {
   }
 
   SlotType({
-    required this.slot
+    required this.slot,
+    required this.type
   });
 }
 
