@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokemon_api/pokemon_api.dart';
 import 'package:pokemon_app_wisemen/home/home.dart';
-import 'package:pokemon_app_wisemen/home/widgets/pokemon_list_tile.dart';
-import 'package:pokemon_app_wisemen/home/widgets/widgets.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -12,9 +10,9 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider(
-        create: (_) => HomeCubit(
+        create: (_) => HomeBloc(
           pokemonApiClient: context.read<PokemonApiClient>(),
-        )..fetchList(),
+        )..add(FetchList()),
         child: const HomeView(),
       ),
     );
@@ -26,7 +24,7 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.watch<HomeCubit>().state;
+    final state = context.watch<HomeBloc>().state;
     switch (state.status) {
       case HomeStatus.failure:
         return const Center(child: Text('Oops something went wrong!'));
@@ -35,16 +33,43 @@ class HomeView extends StatelessWidget {
           children: [
             IconBar(),
             Expanded(
-              child: ListView.builder(
-                itemCount: state.pokemonList.length,
-                shrinkWrap: true,
-                padding: EdgeInsets.zero,
-                itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: PokemonListTile(pokemon: state.pokemonList[index]),
-                  );
-                }
+              child: CustomScrollView(
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: Text('Pokédex',
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+                        child: SearchBar(),
+                      ),
+                  ),
+                  SliverPersistentHeader(
+                      pinned: true,
+                      delegate: _SliverTabsDelegate(
+                        SelectionCard(height: MediaQuery.of(context).size.height * .15)
+                      ),
+                  ),
+                  SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                          (BuildContext context, int index) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                              child: PokemonListTile(pokemon: state.filteredPokemonList[index]),
+                            );
+                          },
+                        childCount: state.filteredPokemonList.length
+                      )
+                  )
+                ],
               ),
             )
           ],
@@ -53,5 +78,30 @@ class HomeView extends StatelessWidget {
         return const Center(child: CircularProgressIndicator());
     }
   }
+}
+
+class _SliverTabsDelegate extends SliverPersistentHeaderDelegate {
+  _SliverTabsDelegate(this._tab);
+
+  final SelectionCard _tab;
+
+  @override
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Container(
+      child: _tab,
+    );
+  }
+
+  @override
+  double get maxExtent => _tab.height;
+
+  @override
+  double get minExtent => _tab.height * 0.8;
+
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
+    return false;
+  }
+
 }
 

@@ -9,7 +9,7 @@ class PokemonListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 8,
+      elevation: 5,
       child: ListTile(
         leading: Image.network(pokemon.sprites.front_default),
         title: Text(pokemon.name.capitalize(),
@@ -78,7 +78,7 @@ extension StringExtension on String {
 }
 
 Color getColorFromType(String type) {
-  switch(type) {
+  switch(type.toLowerCase()) {
     case 'normal':
       return Color.fromRGBO(168, 167, 122, 1);
     case 'fire':
