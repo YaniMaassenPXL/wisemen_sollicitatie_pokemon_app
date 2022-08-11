@@ -53,8 +53,7 @@ class _DetailPageViewState extends State<DetailPageView> {
   }
 
   bool get isShrink {
-    return _scrollController.hasClients &&
-        _scrollController.offset > (200 - kToolbarHeight);
+    return _scrollController.hasClients;
   }
 
   @override
@@ -83,8 +82,13 @@ class _DetailPageViewState extends State<DetailPageView> {
                     SliverAppBar(
                       backgroundColor: isShrink ? getColorFromType(state.pokemon.types.first.type.name).withOpacity(0.8) : Colors.transparent,
                       floating: true,
+                      centerTitle: true,
+                      titleTextStyle: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold
+                      ),
                       pinned: true,
-                      title: isShrink ? Text(state.pokemon.name.capitalize()) : Text(''),
+                      title: !isShrink ? Text(state.pokemon.name.capitalize()) : Text(''),
                       leading: IconButton(
                           onPressed: () => Navigator.of(context).pop(),
                           icon: Icon(Icons.arrow_back_ios)
@@ -96,23 +100,13 @@ class _DetailPageViewState extends State<DetailPageView> {
                         )
                       ],
                     ),
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: Text(state.pokemon.name.capitalize(),
-                          style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white
-                          ),
-                        ),
-                      ),
-                    ),
                     SliverToBoxAdapter(child: SpritesCarousel(sprites: state.pokemon.sprites)),
                     SliverList(
                       delegate: SliverChildListDelegate(
                         [
                           AboutCard(pokemon: state.pokemon),
+                          StatsCard(stats: state.pokemon.stats!),
+                          MoveSetCard(moves: state.pokemon.moves!)
                         ]
                       ),
                     )
