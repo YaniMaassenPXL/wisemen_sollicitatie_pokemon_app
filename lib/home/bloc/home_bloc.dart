@@ -31,7 +31,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   Future<void> _filterList(SearchQueryChanged event, Emitter<HomeState> emit) async {
-    final filteredPokemonList = state.pokemonList.where((pokemon) => pokemon.name.contains(event.searchQuery) || pokemon.id.toString().contains(event.searchQuery)).toList();
+    final filteredPokemonList = state.pokemonList.where((pokemon) => pokemon.name.contains(event.searchQuery) ||
+        pokemon.id.toString().contains(event.searchQuery) ||
+        pokemon.types.first.type.name.contains(event.searchQuery) ||
+        pokemon.types.last.type.name.contains(event.searchQuery))
+        .toList();
     emit(state.copyWith(
       filteredPokemonList: filteredPokemonList
     ));
