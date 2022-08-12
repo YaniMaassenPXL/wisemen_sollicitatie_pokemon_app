@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -29,8 +31,21 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         team: teamBox.length
       ));
     } on Exception {
+      final viewedBox = await Hive.openBox('viewed');
+      final favoritesBox = await Hive.openBox('favorites');
+      final teamBox = await Hive.openBox('team');
+
+      List<Pokemon> pokemonList = <Pokemon>[];
+      viewedBox.values.forEach((pokemon) {
+        pokemonList.add(Pokemon.fromJson(jsonDecode(pokemon)));
+      });
+
       emit(state.copyWith(
-        status: HomeStatus.failure
+          status: HomeStatus.success,
+          pokemonList: pokemonList,
+          filteredPokemonList: pokemonList,
+          favorites: favoritesBox.length,
+          team: teamBox.length
       ));
     }
   }

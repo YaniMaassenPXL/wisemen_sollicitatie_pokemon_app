@@ -90,13 +90,13 @@ class _DetailPageViewState extends State<DetailPageView> {
                       pinned: true,
                       title: !isShrink ? Text(state.pokemon.name.capitalize()) : Text(''),
                       leading: IconButton(
-                          onPressed: () => Navigator.of(context).popAndPushNamed('/'),
+                          onPressed: () => Navigator.of(context).pop(),
                           icon: Icon(Icons.arrow_back_ios)
                       ),
                       actions: [
                         IconButton(
-                          onPressed: null,
-                          icon: Icon(Icons.favorite_border, color: Colors.white)
+                          onPressed: () => context.read<DetailBloc>().add(AddToFavorites()),
+                          icon: state.favorite ? Icon(Icons.favorite) : Icon(Icons.favorite_border, color: Colors.white)
                         )
                       ],
                     ),
@@ -106,7 +106,7 @@ class _DetailPageViewState extends State<DetailPageView> {
                         [
                           AboutCard(pokemon: state.pokemon),
                           StatsCard(stats: state.pokemon.stats!),
-                          MoveSetCard(moves: state.pokemon.moves!)
+                          MoveSetCard(moves: state.pokemon.moves!),
                         ]
                       ),
                     )

@@ -10,6 +10,7 @@ void main() async {
   await Hive.initFlutter();
   await Hive.openBox('favorites');
   await Hive.openBox('team');
+  await Hive.openBox('viewed');
   Bloc.observer = SimpleBlocObserver();
   final PokemonApiClient apiClient = PokemonApiClient();
   runApp(App(repository: apiClient));
