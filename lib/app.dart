@@ -13,7 +13,7 @@ class App extends MaterialApp {
               value: repository,
               child: const Home(),
             ),
-            '/favorites': (context) => const FavoritesView()
+            '/favorites': (context) => const Favorites()
           },
           debugShowCheckedModeBanner: false,
         );
