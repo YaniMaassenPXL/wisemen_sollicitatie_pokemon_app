@@ -18,28 +18,36 @@ class HomeState extends Equatable {
    required this.status,
    required this.pokemonList,
    required this.filteredPokemonList,
-   this.searchQuery
+   this.searchQuery,
+   this.favorites,
+   this.team
   });
 
   final HomeStatus status;
   final List<Pokemon> pokemonList;
   final List<Pokemon> filteredPokemonList;
   String? searchQuery;
+  int? favorites;
+  int? team;
 
   HomeState copyWith({
     HomeStatus? status,
     List<Pokemon>? pokemonList,
     List<Pokemon>? filteredPokemonList,
-    String? searchQuery
+    String? searchQuery,
+    int? favorites,
+    int? team
   }) {
     return HomeState(
         status: status ?? this.status,
         pokemonList: pokemonList ?? this.pokemonList,
         filteredPokemonList: filteredPokemonList ?? this.filteredPokemonList,
-        searchQuery: searchQuery ?? this.searchQuery
+        searchQuery: searchQuery ?? this.searchQuery,
+        favorites: favorites ?? this.favorites,
+        team: team ?? this.team
     );
   }
 
   @override
-  List<Object?> get props => [status, pokemonList, filteredPokemonList];
+  List<Object?> get props => [status, pokemonList, filteredPokemonList, favorites, team];
 }

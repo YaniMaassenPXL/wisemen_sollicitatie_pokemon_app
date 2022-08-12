@@ -55,7 +55,7 @@ class HomeView extends StatelessWidget {
                   SliverPersistentHeader(
                       pinned: true,
                       delegate: _SliverTabsDelegate(
-                        SelectionCard(height: MediaQuery.of(context).size.height * .15)
+                        SelectionCard(height: MediaQuery.of(context).size.height * .15, team: state.team ?? 0, favorites: state.favorites ?? 0)
                       ),
                   ),
                   SliverList(

@@ -6,10 +6,13 @@ import 'package:pokemon_app_wisemen/home/home.dart';
 class App extends MaterialApp {
   App({super.key, required PokemonApiClient repository})
       : super(
+          initialRoute: '/',
+          routes: {
+            '/': (context) => RepositoryProvider.value(
+              value: repository,
+              child: const Home(),
+            ),
+          },
           debugShowCheckedModeBanner: false,
-          home: RepositoryProvider.value(
-            value: repository,
-            child: const Home(),
-          ),
         );
 }

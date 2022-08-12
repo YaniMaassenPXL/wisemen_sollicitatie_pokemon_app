@@ -90,7 +90,7 @@ class _DetailPageViewState extends State<DetailPageView> {
                       pinned: true,
                       title: !isShrink ? Text(state.pokemon.name.capitalize()) : Text(''),
                       leading: IconButton(
-                          onPressed: () => Navigator.of(context).pop(),
+                          onPressed: () => Navigator.of(context).popAndPushNamed('/'),
                           icon: Icon(Icons.arrow_back_ios)
                       ),
                       actions: [
@@ -113,9 +113,9 @@ class _DetailPageViewState extends State<DetailPageView> {
                   ],
                 );
               case DetailStatus.failure:
-                return Text('Something went wrong');
+                return Center(child: Text('Something went wrong'));
               case DetailStatus.loading:
-                return CircularProgressIndicator();
+                return Center(child: CircularProgressIndicator());
             }
           }
       ),

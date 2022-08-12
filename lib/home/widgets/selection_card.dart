@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 class SelectionCard extends StatelessWidget {
-  const SelectionCard({Key? key, required this.height}) : super(key: key);
+  const SelectionCard({Key? key, required this.height, required this.team, required this.favorites}) : super(key: key);
 
   final double height;
+  final int team;
+  final int favorites;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +40,7 @@ class SelectionCard extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                             )
                           ),
-                          Text('# pokemons',
+                          Text(team.toString() + ' pokemons',
                             style: TextStyle(
                               fontSize: 16,
                               color: Colors.white.withOpacity(0.4)
@@ -83,7 +85,7 @@ class SelectionCard extends StatelessWidget {
                                   fontWeight: FontWeight.bold,
                                 )
                             ),
-                            Text('# pokemons',
+                            Text(favorites.toString() + ' pokemons',
                               style: TextStyle(
                                   fontSize: 16,
                                   color: Colors.white.withOpacity(0.4)
