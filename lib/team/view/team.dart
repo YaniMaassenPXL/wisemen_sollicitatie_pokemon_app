@@ -33,8 +33,8 @@ class TeamView extends StatelessWidget {
             decoration: const BoxDecoration(
                 gradient: LinearGradient(
                     colors: <Color>[
-                      Color.fromRGBO(101, 203, 154, 1),
-                      Color.fromRGBO(21, 208, 220, 1)
+                      Color.fromRGBO(70, 70, 156, 1),
+                      Color.fromRGBO(126, 50, 224, 1)
                     ]
                 )
             ),
@@ -58,7 +58,7 @@ class TeamView extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8),
-                  child: Text('Favorieten', style: TextStyle(
+                  child: Text('Mijn team', style: TextStyle(
                       color: Colors.white,
                       fontSize: 30,
                       fontWeight: FontWeight.bold
