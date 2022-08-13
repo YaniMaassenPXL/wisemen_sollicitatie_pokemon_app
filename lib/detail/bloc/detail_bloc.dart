@@ -32,7 +32,7 @@ class DetailBloc extends Bloc<DetailEvent, DetailState> {
       final pokemon = await _pokemonApiClient.getPokemonById(state.pokemon.id);
       final favoritesBox = await Hive.openBox('favorites');
       final teamBox = await Hive.openBox('team');
-      final viewedBox = await Hive.openBox('viewedBox');
+      final viewedBox = await Hive.openBox('viewed');
 
       if (!viewedBox.containsKey(pokemon.id.toString())) {
         viewedBox.put(pokemon.id.toString(), jsonEncode(pokemon));
@@ -42,7 +42,7 @@ class DetailBloc extends Bloc<DetailEvent, DetailState> {
         status: DetailStatus.success,
         pokemon: pokemon,
         favorite: favoritesBox.containsKey(pokemon.id.toString()),
-        team: teamBox.containsKey(pokemon.id.toString())
+        team: teamBox.containsKey(pokemon.id.toString()) || teamBox.length >= 6
       ));
     } on Exception catch (_) {
       final favoritesBox = await Hive.openBox('favorites');
@@ -81,7 +81,7 @@ class DetailBloc extends Bloc<DetailEvent, DetailState> {
     teamBox.put(state.pokemon.id.toString(), jsonEncode(state.pokemon));
     emit(state.copyWith(
       status: DetailStatus.success,
-      favorite: true,
+      team: true,
     ));
   }
 }

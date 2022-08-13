@@ -14,46 +14,49 @@ class SelectionCard extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(8, 2, 4, 8),
-              child: Container(
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  gradient: LinearGradient(
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                      colors: <Color>[Color.fromRGBO(70, 70, 156, 1), Color.fromRGBO(126, 50, 224, 1)]
-                  )
-                ),
-                child: Stack(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20, bottom: 10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text('Mijn team',
-                            style: TextStyle(
-                              fontSize: 25,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            )
-                          ),
-                          Text(team.toString() + ' pokemons',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.white.withOpacity(0.4)
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Image.asset('assets/ball_purple.png', height: MediaQuery.of(context).size.height * .13)
+            child: GestureDetector(
+              onTap: () => Navigator.of(context).pushNamed('/team'),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(8, 2, 4, 8),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    gradient: LinearGradient(
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                        colors: <Color>[Color.fromRGBO(70, 70, 156, 1), Color.fromRGBO(126, 50, 224, 1)]
                     )
-                  ],
+                  ),
+                  child: Stack(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20, bottom: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text('Mijn team',
+                              style: TextStyle(
+                                fontSize: 25,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              )
+                            ),
+                            Text(team.toString() + ' pokemons',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white.withOpacity(0.4)
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Image.asset('assets/ball_purple.png', height: MediaQuery.of(context).size.height * .13)
+                      )
+                    ],
+                  ),
                 ),
               ),
             )

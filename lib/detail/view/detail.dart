@@ -119,6 +119,38 @@ class _DetailPageViewState extends State<DetailPageView> {
             }
           }
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
+      floatingActionButton: BlocBuilder<DetailBloc, DetailState>(
+        buildWhen: (current, previous) => current.team != previous.team,
+        builder: (context, state) {
+          return Visibility(
+            visible: !state.team,
+            child: ElevatedButton(
+              onPressed: () => context.read<DetailBloc>().add(AddToTeam()),
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * .85,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text('Toevoegen aan mijn team',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 16, color: Colors.white)),
+                ),
+              ),
+              style: ButtonStyle(
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18.0),
+                )),
+                backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                  (Set<MaterialState> states) {
+                    return Colors.black;
+                  },
+                ),
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }
