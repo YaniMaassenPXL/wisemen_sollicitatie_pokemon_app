@@ -12,7 +12,8 @@ class HomeState extends Equatable {
   HomeState._({
     this.status = HomeStatus.loading,
     this.pokemonList = const <Pokemon>[],
-    this.filteredPokemonList = const <Pokemon>[]
+    this.filteredPokemonList = const <Pokemon>[],
+    this.sortIndex = 2
   });
   HomeState({
    required this.status,
@@ -20,7 +21,8 @@ class HomeState extends Equatable {
    required this.filteredPokemonList,
    this.searchQuery,
    this.favorites,
-   this.team
+   this.team,
+   required this.sortIndex
   });
 
   final HomeStatus status;
@@ -29,6 +31,7 @@ class HomeState extends Equatable {
   String? searchQuery;
   int? favorites;
   int? team;
+  final int sortIndex;
 
   HomeState copyWith({
     HomeStatus? status,
@@ -36,7 +39,8 @@ class HomeState extends Equatable {
     List<Pokemon>? filteredPokemonList,
     String? searchQuery,
     int? favorites,
-    int? team
+    int? team,
+    int? sortIndex
   }) {
     return HomeState(
         status: status ?? this.status,
@@ -44,7 +48,8 @@ class HomeState extends Equatable {
         filteredPokemonList: filteredPokemonList ?? this.filteredPokemonList,
         searchQuery: searchQuery ?? this.searchQuery,
         favorites: favorites ?? this.favorites,
-        team: team ?? this.team
+        team: team ?? this.team,
+        sortIndex: sortIndex ?? this.sortIndex
     );
   }
 

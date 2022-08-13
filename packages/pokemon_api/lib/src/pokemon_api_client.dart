@@ -3,6 +3,14 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:pokemon_api/pokemon_api.dart';
 
+class PokemonApiException implements Exception {
+  const PokemonApiException([
+    this.message = 'Error fetching data.'
+  ]);
+
+  final String message;
+}
+
 class PokemonApiClient {
 
   PokemonApiClient({http.Client? httpClient}) : _httpClient = httpClient ?? http.Client();
@@ -27,7 +35,7 @@ class PokemonApiClient {
       final responseJson = jsonDecode(response.body) as List<dynamic>;
       return List<Pokemon>.from(responseJson.map((e) => Pokemon.fromJson(e))).toList();
     } catch(e) {
-      throw new Exception(e.toString());
+      throw new PokemonApiException(e.toString());
     }
   }
 
@@ -48,7 +56,7 @@ class PokemonApiClient {
       final responseJson = jsonDecode(response.body) as dynamic;
       return Pokemon.fromJson(responseJson);
     } catch(e) {
-      throw new Exception(e.toString());
+      throw new PokemonApiException(e.toString());
     }
   }
 }

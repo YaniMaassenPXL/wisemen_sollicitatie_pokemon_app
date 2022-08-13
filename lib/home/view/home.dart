@@ -29,18 +29,27 @@ class HomeView extends StatelessWidget {
       case HomeStatus.failure:
         return const Center(child: Text('Oops something went wrong!'));
       case HomeStatus.success:
-        return Stack(
-          children: [
-            Column(
+        return BlocBuilder<HomeBloc, HomeState>(
+          buildWhen: (current, previous) => current.sortIndex != previous.sortIndex || current.status != previous.status,
+          builder: (context, state) {
+            return Column(
               children: [
-                IconBar(),
+                IconBar(
+                  onChanged: (index) => context
+                      .read<HomeBloc>()
+                      .add(SortIndexChanged(sortIndex: index)),
+                  onSwitch: () => context
+                      .read<HomeBloc>()
+                      .add(ReverseSort()),
+                ),
                 Expanded(
                   child: CustomScrollView(
                     slivers: [
                       SliverToBoxAdapter(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: Text('Pokédex',
+                          child: Text(
+                            'Pokédex',
                             style: TextStyle(
                               fontSize: 30,
                               fontWeight: FontWeight.bold,
@@ -49,35 +58,34 @@ class HomeView extends StatelessWidget {
                         ),
                       ),
                       SliverToBoxAdapter(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-                            child: SearchBar(),
-                          ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 10),
+                          child: SearchBar(),
+                        ),
                       ),
                       SliverPersistentHeader(
-                          pinned: true,
-                          delegate: _SliverTabsDelegate(
-                            SelectionCard(height: MediaQuery.of(context).size.height * .15, team: state.team ?? 0, favorites: state.favorites ?? 0)
-                          ),
+                        pinned: true,
+                        delegate: _SliverTabsDelegate(SelectionCard(
+                            height: MediaQuery.of(context).size.height * .15,
+                            team: state.team ?? 0,
+                            favorites: state.favorites ?? 0)),
                       ),
                       SliverList(
                           delegate: SliverChildBuilderDelegate(
                               (BuildContext context, int index) {
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                                  child: PokemonListTile(pokemon: state.filteredPokemonList[index]),
-                                );
-                              },
-                            childCount: state.filteredPokemonList.length
-                          )
-                      )
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: PokemonListTile(
+                              pokemon: state.filteredPokemonList[index]),
+                        );
+                      }, childCount: state.filteredPokemonList.length))
                     ],
                   ),
                 )
               ],
-            ),
-            PopupFilter()
-          ],
+            );
+          },
         );
       case HomeStatus.loading:
         return const Center(child: CircularProgressIndicator());

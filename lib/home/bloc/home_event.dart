@@ -17,3 +17,14 @@ class SearchQueryChanged extends HomeEvent {
   @override
   List<Object> get props => [searchQuery];
 }
+
+class SortIndexChanged extends HomeEvent {
+  const SortIndexChanged({required this.sortIndex});
+
+  final int sortIndex;
+
+  @override
+  List<Object> get props => [sortIndex];
+}
+
+class ReverseSort extends HomeEvent {}

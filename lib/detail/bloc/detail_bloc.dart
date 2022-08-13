@@ -5,7 +5,6 @@ import 'package:meta/meta.dart';
 import 'package:pokemon_api/pokemon_api.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
-import 'package:pokemon_app_wisemen/detail/detail.dart';
 
 part 'detail_event.dart';
 part 'detail_state.dart';
@@ -44,7 +43,7 @@ class DetailBloc extends Bloc<DetailEvent, DetailState> {
         favorite: favoritesBox.containsKey(pokemon.id.toString()),
         team: teamBox.containsKey(pokemon.id.toString()) || teamBox.length >= 6
       ));
-    } on Exception catch (_) {
+    } on PokemonApiException catch (_) {
       final favoritesBox = await Hive.openBox('favorites');
       final teamBox = await Hive.openBox('team');
       final viewedBox = await Hive.openBox('viewedBox');
@@ -55,6 +54,10 @@ class DetailBloc extends Bloc<DetailEvent, DetailState> {
           pokemon: pokemon,
           favorite: favoritesBox.containsKey(pokemon.id.toString()),
           team: teamBox.containsKey(pokemon.id.toString())
+      ));
+    } on Exception {
+      emit(state.copyWith(
+          status: DetailStatus.failure
       ));
     }
   }

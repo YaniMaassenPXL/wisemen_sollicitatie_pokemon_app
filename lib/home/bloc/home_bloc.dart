@@ -14,6 +14,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       : super(HomeState._(status: HomeStatus.loading)){
     on<FetchList>(_fetchList);
     on<SearchQueryChanged>(_filterList);
+    on<SortIndexChanged>(_sortList);
+    on<ReverseSort>(_onReverseSort);
   }
 
   final PokemonApiClient pokemonApiClient;
@@ -30,7 +32,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         favorites: favoritesBox.length,
         team: teamBox.length
       ));
-    } on Exception {
+    } on PokemonApiException {
       final viewedBox = await Hive.openBox('viewed');
       final favoritesBox = await Hive.openBox('favorites');
       final teamBox = await Hive.openBox('team');
@@ -47,6 +49,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           favorites: favoritesBox.length,
           team: teamBox.length
       ));
+    } on Exception {
+      emit(state.copyWith(
+        status: HomeStatus.failure
+      ));
     }
   }
 
@@ -59,5 +65,92 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(state.copyWith(
       filteredPokemonList: filteredPokemonList
     ));
+  }
+
+  Future<void> _sortList(SortIndexChanged event, Emitter<HomeState> emit) async {
+    emit(state.copyWith(
+      status: HomeStatus.loading
+    ));
+    if (event.sortIndex == 0) {
+      emit(state.copyWith(
+        status: HomeStatus.success,
+        sortIndex: event.sortIndex,
+        filteredPokemonList: _sortAlphabeticallyAscending(state.filteredPokemonList)
+      ));
+    } else if (event.sortIndex == 1) {
+      emit(state.copyWith(
+        status: HomeStatus.success,
+        sortIndex: event.sortIndex,
+        filteredPokemonList: _sortAlphabeticallyDescending(state.filteredPokemonList)
+      ));
+    } else if (event.sortIndex == 2) {
+      emit(state.copyWith(
+        status: HomeStatus.success,
+        sortIndex: event.sortIndex,
+        filteredPokemonList: _sortNumericallyAscending(state.filteredPokemonList)
+      ));
+    } else if (event.sortIndex == 3) {
+      emit(state.copyWith(
+        status: HomeStatus.success,
+        sortIndex: event.sortIndex,
+        filteredPokemonList: _sortNumericallyDescending(state.filteredPokemonList)
+      ));
+    }
+  }
+
+  Future<void> _onReverseSort(ReverseSort event, Emitter<HomeState> emit) async {
+    emit(state.copyWith(
+        status: HomeStatus.loading
+    ));
+    if (state.sortIndex == 0) {
+      emit(state.copyWith(
+          status: HomeStatus.success,
+          sortIndex: 1,
+          filteredPokemonList: _sortAlphabeticallyDescending(state.filteredPokemonList)
+      ));
+    } else if (state.sortIndex == 1) {
+      emit(state.copyWith(
+          status: HomeStatus.success,
+          sortIndex: 0,
+          filteredPokemonList: _sortAlphabeticallyAscending(state.filteredPokemonList)
+      ));
+    } else if (state.sortIndex == 2) {
+      emit(state.copyWith(
+          status: HomeStatus.success,
+          sortIndex: 3,
+          filteredPokemonList: _sortNumericallyDescending(state.filteredPokemonList)
+      ));
+    } else if (state.sortIndex == 3) {
+      emit(state.copyWith(
+          status: HomeStatus.success,
+          sortIndex: 2,
+          filteredPokemonList: _sortNumericallyAscending(state.filteredPokemonList)
+      ));
+    }
+  }
+
+  List<Pokemon> _sortAlphabeticallyAscending(List<Pokemon> list) {
+    list.sort((a, b) {
+      return a.name.toLowerCase().compareTo(b.name.toLowerCase());
+    });
+    return list;
+  }
+  List<Pokemon> _sortAlphabeticallyDescending(List<Pokemon> list) {
+    list.sort((a, b) {
+      return b.name.toLowerCase().compareTo(a.name.toLowerCase());
+    });
+    return list;
+  }
+  List<Pokemon> _sortNumericallyAscending(List<Pokemon> list) {
+    list.sort((a, b) {
+      return a.id.compareTo(b.id);
+    });
+    return list;
+  }
+  List<Pokemon> _sortNumericallyDescending(List<Pokemon> list) {
+    list.sort((a, b) {
+      return b.id.compareTo(a.id);
+    });
+    return list;
   }
 }
