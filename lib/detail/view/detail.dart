@@ -113,7 +113,8 @@ class _DetailPageViewState extends State<DetailPageView> {
                               evolutions: state.evolutions,
                               original: state.pokemon.id,
                             )
-                          )
+                          ),
+                          SizedBox(height: 40)
                         ]
                       ),
                     )

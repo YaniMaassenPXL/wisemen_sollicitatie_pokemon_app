@@ -25,20 +25,17 @@ class EvolutionsView extends StatelessWidget {
                 )
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 40),
-            child: ListView.builder(
-              padding: EdgeInsets.zero,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: evolutions.length,
-              itemBuilder: (context, index) {
-                return PokemonListTile(
-                  isMain: evolutions[index].id == original,
-                  pokemon: evolutions[index],
-                );
-              }
-            ),
+          ListView.builder(
+            padding: EdgeInsets.zero,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: evolutions.length,
+            itemBuilder: (context, index) {
+              return PokemonListTile(
+                isMain: evolutions[index].id == original,
+                pokemon: evolutions[index],
+              );
+            }
           )
         ],
       ),
