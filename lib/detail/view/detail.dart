@@ -107,6 +107,13 @@ class _DetailPageViewState extends State<DetailPageView> {
                           AboutCard(pokemon: state.pokemon),
                           StatsCard(stats: state.pokemon.stats!),
                           MoveSetCard(moves: state.pokemon.moves!),
+                          Visibility(
+                            visible: state.evolutions.isNotEmpty,
+                            child: EvolutionsView(
+                              evolutions: state.evolutions,
+                              original: state.pokemon.id,
+                            )
+                          )
                         ]
                       ),
                     )

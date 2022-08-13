@@ -16,7 +16,8 @@ class DetailBloc extends Bloc<DetailEvent, DetailState> {
         status: DetailStatus.loading,
         pokemon: pokemon,
         favorite: false,
-        team: false
+        team: false,
+        evolutions: []
   )) {
     on<FetchDetails>(_onFetchDetails);
     on<AddToFavorites>(_onAddFavorite);
@@ -29,6 +30,7 @@ class DetailBloc extends Bloc<DetailEvent, DetailState> {
     emit(state.copyWith(status: DetailStatus.loading));
     try {
       final pokemon = await _pokemonApiClient.getPokemonById(state.pokemon.id);
+      final evolutions = await _pokemonApiClient.getEvolutions(state.pokemon.id);
       final favoritesBox = await Hive.openBox('favorites');
       final teamBox = await Hive.openBox('team');
       final viewedBox = await Hive.openBox('viewed');
@@ -41,7 +43,8 @@ class DetailBloc extends Bloc<DetailEvent, DetailState> {
         status: DetailStatus.success,
         pokemon: pokemon,
         favorite: favoritesBox.containsKey(pokemon.id.toString()),
-        team: teamBox.containsKey(pokemon.id.toString()) || teamBox.length >= 6
+        team: teamBox.containsKey(pokemon.id.toString()) || teamBox.length >= 6,
+        evolutions: evolutions
       ));
     } on PokemonApiException catch (_) {
       final favoritesBox = await Hive.openBox('favorites');
