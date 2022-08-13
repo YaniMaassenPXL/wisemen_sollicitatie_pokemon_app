@@ -29,49 +29,54 @@ class HomeView extends StatelessWidget {
       case HomeStatus.failure:
         return const Center(child: Text('Oops something went wrong!'));
       case HomeStatus.success:
-        return Column(
+        return Stack(
           children: [
-            IconBar(),
-            Expanded(
-              child: CustomScrollView(
-                slivers: [
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: Text('Pokédex',
-                        style: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
+            Column(
+              children: [
+                IconBar(),
+                Expanded(
+                  child: CustomScrollView(
+                    slivers: [
+                      SliverToBoxAdapter(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: Text('Pokédex',
+                            style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                  SliverToBoxAdapter(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-                        child: SearchBar(),
+                      SliverToBoxAdapter(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+                            child: SearchBar(),
+                          ),
                       ),
-                  ),
-                  SliverPersistentHeader(
-                      pinned: true,
-                      delegate: _SliverTabsDelegate(
-                        SelectionCard(height: MediaQuery.of(context).size.height * .15, team: state.team ?? 0, favorites: state.favorites ?? 0)
+                      SliverPersistentHeader(
+                          pinned: true,
+                          delegate: _SliverTabsDelegate(
+                            SelectionCard(height: MediaQuery.of(context).size.height * .15, team: state.team ?? 0, favorites: state.favorites ?? 0)
+                          ),
                       ),
-                  ),
-                  SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                          (BuildContext context, int index) {
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 8),
-                              child: PokemonListTile(pokemon: state.filteredPokemonList[index]),
-                            );
-                          },
-                        childCount: state.filteredPokemonList.length
+                      SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                              (BuildContext context, int index) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                                  child: PokemonListTile(pokemon: state.filteredPokemonList[index]),
+                                );
+                              },
+                            childCount: state.filteredPokemonList.length
+                          )
                       )
-                  )
-                ],
-              ),
-            )
+                    ],
+                  ),
+                )
+              ],
+            ),
+            PopupFilter()
           ],
         );
       case HomeStatus.loading:
