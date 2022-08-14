@@ -105,7 +105,7 @@ class _DetailPageViewState extends State<DetailPageView> {
                       delegate: SliverChildListDelegate(
                         [
                           AboutCard(pokemon: state.pokemon),
-                          StatsCard(stats: state.pokemon.stats!),
+                          StatsCard(stats: state.pokemon.stats!, type: state.pokemon.types.first.type.name),
                           MoveSetCard(moves: state.pokemon.moves!),
                           Visibility(
                             visible: state.evolutions.isNotEmpty,

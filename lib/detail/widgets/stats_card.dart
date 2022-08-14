@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:pokemon_api/pokemon_api.dart';
-import 'package:pokemon_app_wisemen/detail/widgets/stat_bar.dart';
+import 'package:pokemon_app_wisemen/detail/detail.dart';
 import 'package:pokemon_app_wisemen/utils/functions.dart';
 
 class StatsCard extends StatelessWidget {
-  const StatsCard({Key? key, required this.stats}) : super(key: key);
+  const StatsCard({Key? key, required this.stats, required this.type}) : super(key: key);
 
   final List<Stat> stats;
+  final String type;
 
   static TextStyle titleStyle = TextStyle(
     fontSize: 14,
@@ -99,7 +100,8 @@ class StatsCard extends StatelessWidget {
                         ),
                       )
                     ],
-                  )
+                  ),
+                  HexStatGraph(stats: stats, type: type)
                 ],
               )
             ),

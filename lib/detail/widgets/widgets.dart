@@ -6,3 +6,4 @@ export 'moveset_card.dart';
 export 'level_chip.dart';
 export 'evolutions.dart';
 export 'pokemon_list_tile.dart';
+export 'hex_stat_graph.dart';
