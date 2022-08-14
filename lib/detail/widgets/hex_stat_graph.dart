@@ -26,14 +26,14 @@ class HexStatGraph extends StatelessWidget {
               Align(
                 alignment: Alignment.topLeft,
                 child: Padding(
-                  padding: EdgeInsets.only(top: constraints.maxHeight * .25, left: constraints.maxWidth * .1),
+                  padding: EdgeInsets.only(top: constraints.maxHeight * .25, left: constraints.maxWidth * .05),
                   child: Text('Sp. Atk'),
                 ),
               ),
               Align(
                 alignment: Alignment.bottomLeft,
                 child: Padding(
-                  padding: EdgeInsets.only(bottom: constraints.maxHeight * .25, left: constraints.maxWidth * .1),
+                  padding: EdgeInsets.only(bottom: constraints.maxHeight * .25, left: constraints.maxWidth * .05),
                   child: Text('Sp. Def'),
                 ),
               ),
@@ -47,14 +47,14 @@ class HexStatGraph extends StatelessWidget {
               Align(
                 alignment: Alignment.bottomRight,
                 child: Padding(
-                  padding: EdgeInsets.only(bottom: constraints.maxHeight * .25, right: constraints.maxWidth * .1),
+                  padding: EdgeInsets.only(bottom: constraints.maxHeight * .25, right: constraints.maxWidth * .05),
                   child: Text(stats[2].stat.name.capitalize()),
                 ),
               ),
               Align(
                 alignment: Alignment.topRight,
                 child: Padding(
-                  padding: EdgeInsets.only(top: constraints.maxHeight * .25, right: constraints.maxWidth * .1),
+                  padding: EdgeInsets.only(top: constraints.maxHeight * .25, right: constraints.maxWidth * .05),
                   child: Text(stats[1].stat.name.capitalize()),
                 ),
               ),

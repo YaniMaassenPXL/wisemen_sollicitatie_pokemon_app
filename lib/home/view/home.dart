@@ -30,7 +30,7 @@ class HomeView extends StatelessWidget {
         return const Center(child: Text('Oops something went wrong!'));
       case HomeStatus.success:
         return BlocBuilder<HomeBloc, HomeState>(
-          buildWhen: (current, previous) => current.sortIndex != previous.sortIndex || current.status != previous.status,
+          buildWhen: (current, previous) => current.sortIndex != previous.sortIndex || current.status != previous.status || current.filteredPokemonList != previous.filteredPokemonList,
           builder: (context, state) {
             return Column(
               children: [
